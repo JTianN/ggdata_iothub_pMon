@@ -65,7 +65,11 @@ def get_current_weather(latitude: float, longitude: float):
             "timestamp": data.get("currentTime"),
             "temperature_c": data.get("temperature", {}).get("degrees"),
             "humidity_percent": humidity,
-            "uv_index": data.get("uvIndex")
+            "uvIndex": data.get("uvIndex"),
+            "wind_Speed": data.get("wind", {}).get("speed", {}).get("value"),
+            "precipitation_type": data.get("precipitation", {}).get("probability", {}).get("type"),
+            "precipitation_percent": data.get("precipitation", {}).get("probability", {}).get("percent"),
+            "weatherCondition": data.get("weatherCondition", {}).get("type")
         }
 
     except Exception as e:
@@ -110,12 +114,16 @@ async def telemetry_loop():
                 "timestamp": weather["timestamp"],
                 "temp": weather["temperature_c"],
                 "humi": weather["humidity_percent"],
-                "uv_index": weather["uv_index"]
+                "uvIndex": weather["uvIndex"],
+                "windSpeed": weather["wind_Speed"],
+                "precipitation": weather["precipitation_type"],
+                "weatherCon": weather["weatherCondition"]
             }
 
             try:
                 send_telemetry(client, telemetry)
                 logger.info(f"[{location_id}] Telemetry sent successfully")
+                logger.info(f"[{location_id}] Payload: {json.dumps(telemetry)}")
 
             except Exception as e:
                 logger.error(f"[{location_id}] Send telemetry failed: {e}")
