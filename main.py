@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-SEND_INTERVAL_SEC = int(os.getenv("SEND_INTERVAL_SEC", 60))
+SEND_INTERVAL_SEC = int(os.getenv("SEND_INTERVAL_SEC", 900))
 WEATHER_URL = "https://weather.googleapis.com/v1/currentConditions:lookup"
 
 LOCATIONS_JSON = os.getenv("LOCATIONS_JSON")
